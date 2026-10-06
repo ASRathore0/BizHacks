@@ -41,7 +41,49 @@ The repository includes an automated workflow at [`.github/workflows/deploy.yml`
 
 ---
 
-## 2. Hosting on Hostinger (Recommended: Static Export to `public_html`)
+## 2. ⚡ Automated Auto-Deployment: GitHub ➔ Hostinger
+
+We have configured an automated GitHub Actions workflow in [`.github/workflows/hostinger-deploy.yml`](.github/workflows/hostinger-deploy.yml).
+
+Every time you run `git push origin main`:
+1. GitHub automatically spins up a virtual environment.
+2. Installs dependencies and runs `npm run build` (compiles Next.js into `out/`).
+3. Securely uploads only changed files into Hostinger's **`public_html/`** folder via FTP.
+4. Your website updates automatically in ~30 seconds without logging into Hostinger!
+
+### Setup Instructions (One-time, takes ~2 minutes):
+
+#### Step 1: Get Your Hostinger FTP Details
+1. Log in to [Hostinger hPanel](https://hpanel.hostinger.com/).
+2. Go to **Websites** → Click **Manage** next to your domain.
+3. In the search bar or left sidebar, open **FTP Accounts** (under **Files**).
+4. You will see:
+   - **FTP IP / Hostname**: (e.g., `ftp.yourdomain.com` or `185.xxx.xxx.xxx`)
+   - **FTP Username**: (e.g., `u123456789`)
+   - **FTP Password**: (Click change password if you don't remember it)
+   - **Port**: `21`
+
+#### Step 2: Add Secrets to Your GitHub Repository
+1. Open your repository on GitHub: [https://github.com/ASRathore0/BizHacks](https://github.com/ASRathore0/BizHacks)
+2. Go to **Settings** (top tab of the repository).
+3. In the left sidebar, click **Secrets and variables** → **Actions**.
+4. Click the green button: **New repository secret**.
+5. Add these 3 secrets:
+
+| Secret Name | Secret Value | Example |
+| :--- | :--- | :--- |
+| `FTP_SERVER` | Your Hostinger FTP IP or Hostname | `ftp.yourdomain.com` or `185.224.138.xxx` |
+| `FTP_USERNAME` | Your Hostinger FTP Username | `u123456789` |
+| `FTP_PASSWORD` | Your Hostinger FTP Password | `YourSecurePassword123!` |
+
+#### Step 3: Trigger Auto-Deployment
+Once you add these 3 secrets:
+- Every future `git push origin main` will automatically build and publish to your Hostinger website!
+- You can monitor real-time build and deploy progress under the **Actions** tab on your GitHub repository.
+
+---
+
+## 3. Manual Deployment to Hostinger (Alternative)
 
 Hostinger's standard web hosting (Single, Premium, Business, Cloud) serves static assets with ultra-fast LiteSpeed web servers.
 
