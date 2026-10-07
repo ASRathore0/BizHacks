@@ -26,7 +26,7 @@ export default function FinalCTA({ onOpenContact }: FinalCTAProps) {
       <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center flex flex-col items-center">
-        
+
         {/* Top Eyebrow Tag */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -80,7 +80,7 @@ export default function FinalCTA({ onOpenContact }: FinalCTAProps) {
           </button>
 
           <a
-            href="https://wa.me/9122962262235?text=Hi%20BizHacks%20Media%2C%20I%20would%20like%20to%20discuss%20a%20marketing%20partnership."
+            href="https://wa.me/912269622235?text=Hi%20BizHacks%20Media%2C%20I%20would%20like%20to%20discuss%20a%20marketing%20partnership."
             target="_blank"
             rel="noreferrer"
             className="w-full sm:w-auto px-7 sm:px-8 py-4 sm:py-5 rounded-full font-display font-bold text-xs sm:text-sm tracking-wide text-zinc-100 bg-[#141418] hover:bg-[#1c1c22] border border-white/15 hover:border-brand-gold/50 shadow-xl transition-all duration-300 flex items-center justify-center gap-2.5 group text-center"
@@ -100,7 +100,7 @@ export default function FinalCTA({ onOpenContact }: FinalCTAProps) {
             <span>Accepting 3 new brand retainers for Q2/Q3</span>
           </div>
           <div className="hidden sm:inline">•</div>
-          <div>Direct Hotline: +91 22962262235</div>
+          <div>Direct Hotline: +91 2269622235</div>
           <div className="hidden sm:inline">•</div>
           <div>International Hub: Los Angeles / Global</div>
         </div>

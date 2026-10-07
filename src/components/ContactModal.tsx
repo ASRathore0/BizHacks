@@ -1,7 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
-import { X, Send, Sparkles, MessageCircle, Phone, CheckCircle2, ArrowRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {
+  X,
+  Send,
+  Sparkles,
+  MessageCircle,
+  Phone,
+  CheckCircle2,
+  ArrowRight,
+  User,
+  Building2,
+  Zap,
+  ShieldCheck,
+  Clock,
+  ChevronDown
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ContactModalProps {
@@ -10,21 +24,65 @@ interface ContactModalProps {
   preselectedService?: string;
 }
 
+const SERVICES = [
+  "Social Media Marketing",
+  "Influencer Marketing",
+  "Talent Management",
+  "Content Marketing",
+  "Brand Collaborations",
+  "Viral Growth & Funnels",
+  "Marketing Strategy & Analysis",
+  "Content Planning",
+];
+
+const BUDGET_TIERS = [
+  { label: "$1.5K – $2.5K / mo", desc: "Emerging" },
+  { label: "$2.5K – $5K / mo", desc: "Growth (Popular)" },
+  { label: "$5K – $15K / mo", desc: "Scale" },
+  { label: "$15K+ / Enterprise", desc: "Custom" },
+];
+
+const ENTITY_TYPES = [
+  { id: "brand", label: "Brand / Business", icon: Building2 },
+  { id: "creator", label: "Creator / Influencer", icon: Sparkles },
+  { id: "agency", label: "Agency / Partner", icon: Zap },
+];
+
 export default function ContactModal({
   isOpen,
   onClose,
   preselectedService = "",
 }: ContactModalProps) {
+  const [entityType, setEntityType] = useState("brand");
   const [formData, setFormData] = useState({
     name: "",
     contactInfo: "",
-    brandOrCreator: "",
-    budget: "$2,500 – $5,000 / mo",
-    service: preselectedService || "Social Media Marketing",
+    brandOrHandle: "",
+    service: preselectedService || SERVICES[0],
+    budget: BUDGET_TIERS[1].label,
     message: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
+
+  // Sync preselectedService when passed
+  useEffect(() => {
+    if (preselectedService) {
+      setFormData((prev) => ({ ...prev, service: preselectedService }));
+    }
+  }, [preselectedService]);
+
+  // Lock body scroll when open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,52 +90,63 @@ export default function ContactModal({
   };
 
   const generateWhatsAppLink = () => {
-    const text = `Hi BizHacks Media! I am reaching out to start a project.\nName: ${formData.name || "Client"}\nBrand/Creator: ${formData.brandOrCreator || "N/A"}\nService: ${formData.service}\nBudget: ${formData.budget}\nMessage: ${formData.message || "Looking to scale growth."}`;
-    return `https://wa.me/9122962262235?text=${encodeURIComponent(text)}`;
+    const text = `Hi BizHacks Media! I'd like to initiate a project.\n\n👤 Type: ${entityType.toUpperCase()}\n📛 Name: ${formData.name || "Client"}\n🏢 Brand/Handle: ${formData.brandOrHandle || "N/A"}\n📞 Contact: ${formData.contactInfo || "N/A"}\n🎯 Service: ${formData.service}\n💰 Investment Tier: ${formData.budget}\n📝 Objectives: ${formData.message || "Looking to scale visibility and growth."}`;
+    return `https://wa.me/912269622235?text=${encodeURIComponent(text)}`;
   };
 
   if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 xs:p-4 sm:p-6 bg-black/90 backdrop-blur-xl">
+        {/* Backdrop click to close */}
+        <div className="absolute inset-0" onClick={onClose} />
+
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-2xl rounded-3xl bg-[#121216] border border-white/20 shadow-2xl p-6 sm:p-10 max-h-[92vh] overflow-y-auto"
+          exit={{ opacity: 0, scale: 0.95, y: 15 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="relative w-full max-w-2xl rounded-2xl sm:rounded-3xl bg-[#121216] border border-white/15 shadow-2xl shadow-black/90 p-5 sm:p-8 md:p-9 max-h-[94vh] sm:max-h-[90vh] overflow-y-auto z-10 scrollbar-thin scrollbar-thumb-zinc-700"
         >
-          {/* Close button */}
+          {/* Top Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 p-2.5 rounded-full bg-white/[0.06] hover:bg-brand-crimson text-white transition-colors"
+            aria-label="Close dialog"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-full bg-white/[0.08] hover:bg-brand-crimson text-zinc-300 hover:text-white transition-colors z-20"
           >
             <X className="w-5 h-5" />
           </button>
 
           {!submitted ? (
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-gold mb-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                INITIATE PROJECT // BIZHACKS MEDIA™
+              {/* Header */}
+              <div className="pr-10">
+                <div className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-mono uppercase tracking-widest text-brand-gold font-semibold mb-2">
+                  <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span>START A PROJECT // BIZHACKS MEDIA™</span>
+                </div>
+                <h3 className="font-display font-black text-2xl xs:text-3xl sm:text-4xl text-white tracking-tight leading-tight">
+                  Let&apos;s Build Something Unstoppable.
+                </h3>
+                <p className="text-zinc-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
+                  Brief us on your goals. Our growth team responds within 24 hours with an actionable roadmap.
+                </p>
               </div>
-              <h3 className="font-display font-black text-2xl sm:text-3xl text-white">
-                Let&apos;s Build Something Unstoppable.
-              </h3>
-              <p className="text-zinc-400 text-sm mt-2 leading-relaxed">
-                Tell us about your brand or creator vision. Our strategy directors respond within 24 hours.
-              </p>
 
-              {/* Direct WhatsApp Callout */}
-              <div className="my-6 p-4 rounded-2xl bg-gradient-to-r from-[#17171C] via-[#1A1A22] to-[#17171C] border border-brand-gold/30 flex items-center justify-between gap-4">
+              {/* Instant WhatsApp Quick Banner */}
+              <div className="mt-5 mb-6 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-[#17171E] via-[#1C1C24] to-[#17171E] border border-emerald-500/25 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-3 shadow-lg">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400">
-                    <MessageCircle className="w-5 h-5" />
+                  <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 flex-shrink-0">
+                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <div>
-                    <div className="text-xs font-bold text-white">Prefer instant chat?</div>
-                    <div className="text-[11px] text-zinc-400 font-mono">
-                      WhatsApp Hotline: +91 22962262235
+                  <div className="min-w-0">
+                    <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                      Need Immediate Answers?
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    </div>
+                    <div className="text-[11px] text-zinc-400 font-mono truncate">
+                      WhatsApp Direct: +91 2269622235
                     </div>
                   </div>
                 </div>
@@ -85,139 +154,221 @@ export default function ContactModal({
                   href={generateWhatsAppLink()}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-bold text-xs uppercase tracking-wider transition-colors whitespace-nowrap"
+                  className="px-4 py-2 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 flex-shrink-0 shadow-md shadow-emerald-950/40"
                 >
-                  WhatsApp Now →
+                  <span>Chat on WhatsApp</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               </div>
 
-              {/* In-depth Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-mono uppercase tracking-wider text-zinc-400 block mb-1.5">
-                      Your Name / Entity *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Alex Morgan"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-[#09090B] border border-white/10 focus:border-brand-crimson text-white text-sm outline-none transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-mono uppercase tracking-wider text-zinc-400 block mb-1.5">
-                      Phone / WhatsApp / Handle *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="+1 (555) 000-0000 or @handle"
-                      value={formData.contactInfo}
-                      onChange={(e) => setFormData({ ...formData, contactInfo: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-[#09090B] border border-white/10 focus:border-brand-crimson text-white text-sm outline-none transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-mono uppercase tracking-wider text-zinc-400 block mb-1.5">
-                      Service Protocol
-                    </label>
-                    <select
-                      value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-[#09090B] border border-white/10 focus:border-brand-crimson text-white text-sm outline-none transition-colors cursor-pointer"
-                    >
-                      <option value="Social Media Marketing">Social Media Marketing</option>
-                      <option value="Content Marketing">Content Marketing</option>
-                      <option value="Influencer Marketing">Influencer Marketing</option>
-                      <option value="Brand Collaborations">Brand Collaborations</option>
-                      <option value="Talent Management">Talent Management</option>
-                      <option value="Marketing Strategy">Marketing Strategy</option>
-                      <option value="Content Planning">Content Planning</option>
-                      <option value="Viral Growth">Viral Growth</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-mono uppercase tracking-wider text-zinc-400 block mb-1.5">
-                      Estimated Investment Tier
-                    </label>
-                    <select
-                      value={formData.budget}
-                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-[#09090B] border border-white/10 focus:border-brand-crimson text-white text-sm outline-none transition-colors cursor-pointer"
-                    >
-                      <option value="$1,500 – $2,500 / mo">Emerging ($1,500 – $2,500 / mo)</option>
-                      <option value="$2,500 – $5,000 / mo">Growth ($2,500 – $5,000 / mo)</option>
-                      <option value="$5,000 – $15,000 / mo">Scale ($5,000 – $15,000 / mo)</option>
-                      <option value="$15,000+ / Custom Enterprise">Enterprise ($15,000+ / mo)</option>
-                    </select>
-                  </div>
-                </div>
-
+              {/* Structured Form */}
+              <form onSubmit={handleSubmit} className="flex flex-col gap-5 sm:gap-6">
+                
+                {/* STEP 1: Entity Type Selector */}
                 <div>
-                  <label className="text-xs font-mono uppercase tracking-wider text-zinc-400 block mb-1.5">
-                    Project Vision &amp; Current Footprint
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 block mb-2 font-medium">
+                    1. Tell Us Who You Are
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {ENTITY_TYPES.map((type) => {
+                      const Icon = type.icon;
+                      const isSelected = entityType === type.id;
+                      return (
+                        <button
+                          key={type.id}
+                          type="button"
+                          onClick={() => setEntityType(type.id)}
+                          className={`p-2.5 sm:p-3 rounded-xl border text-left transition-all flex flex-col sm:flex-row items-start sm:items-center gap-2 ${
+                            isSelected
+                              ? "bg-brand-crimson/20 border-brand-crimson text-white shadow-lg shadow-brand-crimson/20"
+                              : "bg-[#0B0B0E] border-white/10 text-zinc-400 hover:border-white/20 hover:text-zinc-200"
+                          }`}
+                        >
+                          <Icon className={`w-4 h-4 flex-shrink-0 ${isSelected ? "text-brand-crimson" : "text-zinc-500"}`} />
+                          <span className="text-[11px] sm:text-xs font-medium leading-tight">{type.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* STEP 2: Contact Essentials */}
+                <div>
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 block mb-2 font-medium">
+                    2. Primary Details
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Your Full Name *"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full px-3.5 py-3 rounded-xl bg-[#0B0B0E] border border-white/10 focus:border-brand-crimson focus:ring-1 focus:ring-brand-crimson/30 text-white text-base sm:text-sm outline-none transition-all placeholder:text-zinc-500"
+                      />
+                    </div>
+
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Brand Name or Social Handle"
+                        value={formData.brandOrHandle}
+                        onChange={(e) => setFormData({ ...formData, brandOrHandle: e.target.value })}
+                        className="w-full px-3.5 py-3 rounded-xl bg-[#0B0B0E] border border-white/10 focus:border-brand-crimson focus:ring-1 focus:ring-brand-crimson/30 text-white text-base sm:text-sm outline-none transition-all placeholder:text-zinc-500"
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <input
+                        type="text"
+                        required
+                        placeholder="WhatsApp Number or Email Address *"
+                        value={formData.contactInfo}
+                        onChange={(e) => setFormData({ ...formData, contactInfo: e.target.value })}
+                        className="w-full px-3.5 py-3 rounded-xl bg-[#0B0B0E] border border-white/10 focus:border-brand-crimson focus:ring-1 focus:ring-brand-crimson/30 text-white text-base sm:text-sm outline-none transition-all placeholder:text-zinc-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* STEP 3: Service Protocol & Budget */}
+                <div>
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 block mb-2 font-medium">
+                    3. Service Scope &amp; Budget
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    
+                    {/* Service Selector */}
+                    <div>
+                      <span className="text-[10px] text-zinc-400 block mb-1">Target Service</span>
+                      <div className="relative">
+                        <select
+                          value={formData.service}
+                          onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                          className="w-full appearance-none px-3.5 py-3 pr-10 rounded-xl bg-[#0B0B0E] border border-white/10 focus:border-brand-crimson text-white text-base sm:text-sm outline-none transition-all cursor-pointer font-sans"
+                        >
+                          {SERVICES.map((serv) => (
+                            <option key={serv} value={serv} className="bg-[#121216] text-white">
+                              {serv}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown className="w-4 h-4 text-zinc-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </div>
+
+                    {/* Budget Tier Selector */}
+                    <div>
+                      <span className="text-[10px] text-zinc-400 block mb-1">Investment Tier</span>
+                      <div className="relative">
+                        <select
+                          value={formData.budget}
+                          onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                          className="w-full appearance-none px-3.5 py-3 pr-10 rounded-xl bg-[#0B0B0E] border border-white/10 focus:border-brand-crimson text-white text-base sm:text-sm outline-none transition-all cursor-pointer font-sans"
+                        >
+                          {BUDGET_TIERS.map((tier) => (
+                            <option key={tier.label} value={tier.label} className="bg-[#121216] text-white">
+                              {tier.label} — {tier.desc}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown className="w-4 h-4 text-zinc-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* STEP 4: Project Vision Message */}
+                <div>
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 block mb-1.5 font-medium">
+                    4. Brief Us on Your Vision &amp; Current Footprint
                   </label>
                   <textarea
                     rows={3}
-                    placeholder="Briefly describe your objectives, existing channels, target timeline..."
+                    placeholder="E.g., We want to scale our brand's Instagram reach, collaborate with top 10 creators, and launch next month..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[#09090B] border border-white/10 focus:border-brand-crimson text-white text-sm outline-none transition-colors resize-none"
+                    className="w-full px-3.5 py-3 rounded-xl bg-[#0B0B0E] border border-white/10 focus:border-brand-crimson focus:ring-1 focus:ring-brand-crimson/30 text-white text-base sm:text-sm outline-none transition-all resize-none placeholder:text-zinc-500"
                   />
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                {/* Submit Actions */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
                   <button
                     type="submit"
-                    className="w-full sm:flex-1 py-4 rounded-xl bg-gradient-to-r from-burgundy-800 via-burgundy-700 to-brand-crimson hover:from-burgundy-700 hover:to-brand-red text-white font-display font-bold text-sm uppercase tracking-wider shadow-xl transition-all flex items-center justify-center gap-2"
+                    className="flex-1 py-3.5 sm:py-4 px-6 rounded-xl bg-gradient-to-r from-burgundy-800 via-burgundy-700 to-brand-crimson hover:from-burgundy-700 hover:to-brand-red text-white font-display font-bold text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-burgundy-950/70 hover:shadow-brand-crimson/30 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 group"
                   >
                     <span>Submit Project Brief</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </button>
 
                   <a
                     href={generateWhatsAppLink()}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full sm:w-auto px-5 py-4 rounded-xl bg-[#1A1A20] hover:bg-[#22222a] border border-white/15 text-zinc-200 text-xs font-mono flex items-center justify-center gap-2"
+                    className="py-3.5 sm:py-4 px-5 rounded-xl bg-[#1A1A22] hover:bg-[#242430] border border-white/10 hover:border-white/20 text-zinc-200 text-xs font-mono flex items-center justify-center gap-2 transition-all text-center"
                   >
-                    <MessageCircle className="w-4 h-4 text-emerald-400" />
+                    <MessageCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                     <span>Send on WhatsApp</span>
                   </a>
                 </div>
+
+                {/* Trust Badges Bar */}
+                <div className="pt-2 border-t border-white/[0.06] flex items-center justify-center gap-4 sm:gap-6 text-[10px] sm:text-[11px] font-mono text-zinc-400 text-center">
+                  <span className="flex items-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-brand-gold" />
+                    <span>100% Confidential</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-brand-crimson" />
+                    <span>24h Partner Response</span>
+                  </span>
+                  <span className="hidden xs:inline">•</span>
+                  <span className="hidden xs:inline text-zinc-400">Zero Obligation Call</span>
+                </div>
+
               </form>
             </div>
           ) : (
-            <div className="py-8 text-center flex flex-col items-center">
-              <div className="p-4 rounded-full bg-brand-crimson/20 border border-brand-crimson/40 text-brand-crimson mb-6">
+            /* Celebration Success State */
+            <div className="py-6 sm:py-10 text-center flex flex-col items-center">
+              <motion.div
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="p-4 rounded-full bg-brand-crimson/20 border border-brand-crimson/40 text-brand-crimson mb-5"
+              >
                 <CheckCircle2 className="w-12 h-12" />
-              </div>
-              <h3 className="font-display font-black text-3xl text-white mb-2">
-                Brief Received!
+              </motion.div>
+              
+              <h3 className="font-display font-black text-2xl sm:text-3xl text-white mb-2">
+                Project Brief Received!
               </h3>
-              <p className="text-zinc-300 text-sm max-w-md leading-relaxed mb-8">
-                Thank you, <span className="text-white font-semibold">{formData.name}</span>.
-                Our executive team at BizHacks Media has logged your brief and will review your requirements for{" "}
-                <span className="text-brand-gold">{formData.service}</span>.
+              
+              <p className="text-zinc-300 text-xs sm:text-sm max-w-md leading-relaxed mb-6">
+                Thank you, <span className="text-white font-bold">{formData.name || "there"}</span>.
+                Our strategy team at BizHacks Media has logged your brief for{" "}
+                <span className="text-brand-gold font-semibold">{formData.service}</span>.
               </p>
 
-              <div className="flex items-center gap-4">
+              {/* Summary recap pill */}
+              <div className="mb-6 p-3.5 rounded-xl bg-white/[0.04] border border-white/10 text-left text-xs font-mono text-zinc-300 max-w-sm w-full space-y-1">
+                <div><span className="text-zinc-500">Service:</span> {formData.service}</div>
+                <div><span className="text-zinc-500">Investment Tier:</span> {formData.budget}</div>
+                {formData.contactInfo && <div><span className="text-zinc-500">Contact:</span> {formData.contactInfo}</div>}
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
                 <a
                   href={generateWhatsAppLink()}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-display font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-2"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-display font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/50"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Follow Up Instantly on WhatsApp</span>
+                  <span>Follow Up Now on WhatsApp</span>
                 </a>
 
                 <button
@@ -225,7 +376,7 @@ export default function ContactModal({
                     setSubmitted(false);
                     onClose();
                   }}
-                  className="px-6 py-3 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-zinc-300 text-xs font-mono"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-zinc-300 text-xs font-mono transition-colors"
                 >
                   Close Window
                 </button>

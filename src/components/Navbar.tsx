@@ -31,11 +31,10 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
             ? "py-2.5 sm:py-3.5 bg-[#09090B]/95 backdrop-blur-xl border-b border-white/[0.08] shadow-2xl shadow-black/90"
             : "py-4 sm:py-6 bg-transparent"
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between">
           {/* Logo with uploaded brand identity */}
@@ -104,11 +103,10 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
 
       {/* Full-screen Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 bg-[#09090B]/98 backdrop-blur-2xl md:hidden transition-all duration-500 flex flex-col justify-between p-6 sm:p-8 pt-24 ${
-          mobileMenuOpen
+        className={`fixed inset-0 z-40 bg-[#09090B]/98 backdrop-blur-2xl md:hidden transition-all duration-500 flex flex-col justify-between p-6 sm:p-8 pt-24 ${mobileMenuOpen
             ? "opacity-100 pointer-events-auto translate-y-0"
             : "opacity-0 pointer-events-none -translate-y-6"
-        }`}
+          }`}
       >
         <div className="flex flex-col gap-5">
           <p className="text-[11px] uppercase tracking-widest text-zinc-500 font-mono">
@@ -141,7 +139,7 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
             <ArrowUpRight className="w-4 h-4" />
           </button>
           <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
-            <span>WhatsApp: +91 22962262235</span>
+            <span>WhatsApp: +91 2269622235</span>
             <span>@bizhacks_media</span>
           </div>
         </div>

@@ -15,10 +15,10 @@ export default function Footer({ onOpenContact }: FooterProps) {
   return (
     <footer className="relative bg-[#09090B] border-t border-white/[0.08] text-white pt-14 sm:pt-20 pb-10 sm:pb-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
-        
+
         {/* Main Footer Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 sm:pb-16 border-b border-white/[0.08]">
-          
+
           {/* Brand Identity & Tagline */}
           <div className="lg:col-span-5 flex flex-col items-start">
             <a href="#" className="flex items-center gap-3 group mb-4 sm:mb-6">
@@ -93,10 +93,10 @@ export default function Footer({ onOpenContact }: FooterProps) {
               <div className="flex items-center gap-3 text-xs sm:text-sm text-zinc-200">
                 <Phone className="w-4 h-4 text-brand-crimson flex-shrink-0" />
                 <a
-                  href="tel:+9122962262235"
+                  href="tel:+912269622235"
                   className="hover:text-brand-gold transition-colors font-mono"
                 >
-                  +91 22962262235
+                  +91 2269622235
                 </a>
               </div>
               <div className="flex items-center gap-3 text-xs sm:text-sm text-zinc-200">
@@ -117,7 +117,7 @@ export default function Footer({ onOpenContact }: FooterProps) {
                 <InstagramIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
               <a
-                href="https://wa.me/9122962262235"
+                href="https://wa.me/912269622235"
                 target="_blank"
                 rel="noreferrer"
                 className="p-2.5 sm:p-3 rounded-xl bg-[#141418] hover:bg-emerald-500/20 border border-white/10 hover:border-emerald-500 text-zinc-300 hover:text-white transition-all"
