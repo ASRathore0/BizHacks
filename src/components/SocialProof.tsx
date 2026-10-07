@@ -194,7 +194,7 @@ export default function SocialProof() {
             </div>
           </motion.div>
 
-          {/* Post Card 3: Streetwear Talent Roster Showcase */}
+          {/* Post Card 3: Official Creator Signing - Alone Royal (6M+ Reach) */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -206,43 +206,44 @@ export default function SocialProof() {
               <div className="flex items-center gap-2.5 sm:gap-3">
                 <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-white/20 bg-zinc-800 flex-shrink-0">
                   <Image
-                    src="/assets/creator_1.jpg"
-                    alt="Creator Partner"
+                    src="/assets/creator_alone_royal.jpg"
+                    alt="Alone Royal"
                     fill
                     className="object-cover"
                   />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white">sashavance.la</div>
-                  <div className="text-[10px] text-zinc-400 font-mono">Culture &amp; Streetwear</div>
+                  <div className="text-xs font-bold text-white">alonearoyal</div>
+                  <div className="text-[10px] text-zinc-400 font-mono">Content Creator • 6M+ Reach</div>
                 </div>
               </div>
-              <span className="text-[9px] sm:text-[10px] font-mono text-brand-crimson">Signed Talent</span>
+              <span className="text-[9px] sm:text-[10px] font-mono text-brand-crimson font-bold bg-brand-crimson/10 px-2 py-0.5 rounded border border-brand-crimson/20">Official Signing</span>
             </div>
 
-            <div className="relative aspect-[4/5] w-full bg-black">
+            <div className="relative aspect-[3/4] w-full bg-black">
               <Image
-                src="/assets/creator_1.jpg"
-                alt="Talent Editorial"
+                src="/assets/creator_alone_royal.jpg"
+                alt="Alone Royal - 6M+ Network On Social Media"
                 fill
-                className="object-cover group-hover:scale-102 transition-transform duration-500"
+                className="object-contain group-hover:scale-102 transition-transform duration-500"
               />
             </div>
 
             <div className="p-3.5 sm:p-4 border-t border-white/[0.06] flex flex-col gap-2">
               <div className="flex items-center justify-between text-zinc-300">
                 <div className="flex items-center gap-3.5 sm:gap-4">
-                  <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-brand-crimson fill-brand-crimson" />
-                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <Send className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-brand-crimson fill-brand-crimson cursor-pointer" />
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer hover:text-white" />
+                  <Send className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer hover:text-white" />
                 </div>
-                <Bookmark className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer hover:text-white" />
               </div>
               <div className="text-xs text-zinc-200">
-                Represented exclusively by <span className="font-bold text-white">BizHacks Media</span>
+                Liked by <span className="font-bold text-white">bizhacks_media</span> and <span className="font-bold text-white">thousands more</span>
               </div>
               <p className="text-xs text-zinc-300 leading-relaxed">
-                When you align the right brand with authentic creator aesthetics, audiences don&apos;t skip the message — they share it.
+                <span className="font-bold text-white mr-1">bizhacks_media</span>
+                Welcome to THE BIZHACKS MEDIA! Proud to welcome <span className="text-brand-gold font-bold">Alone Royal</span> (6M+ Network) to our exclusive creator roster. Next-level brand collaborations starting now.
               </p>
             </div>
           </motion.div>
