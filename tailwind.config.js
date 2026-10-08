@@ -31,9 +31,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-outfit)", "system-ui", "sans-serif"],
-        display: ["var(--font-syne)", "system-ui", "sans-serif"],
-        mono: ["var(--font-space-mono)", "monospace"],
+        sans: ["var(--font-sans)", "'Plus Jakarta Sans'", "'Inter'", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "'Plus Jakarta Sans'", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "'Space Grotesk'", "monospace"],
       },
       animation: {
         "marquee-left": "marqueeLeft 28s linear infinite",
