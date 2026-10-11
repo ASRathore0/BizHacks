@@ -90,7 +90,7 @@ export default function AboutSection() {
                     BizHacks Growth System
                   </span>
                   <p className="font-display font-extrabold text-xl leading-tight">
-                    Turn your audience into lifelong brand champions.
+                    We Turn Creators into Brands
                   </p>
                   <p className="text-xs text-zinc-400 mt-2 font-mono">
                     Full-funnel digital execution with guaranteed deliverables.
