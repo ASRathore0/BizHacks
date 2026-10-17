@@ -165,7 +165,7 @@ export default function Hero({ onOpenContact }: HeroProps) {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-[2.25rem] xs:text-[2.75rem] sm:text-5xl lg:text-[3.35rem] xl:text-[4rem] font-display text-white mb-4 uppercase tracking-tight leading-[1.02] w-full text-center lg:text-left font-black"
             >
-              WE MAKE <span className="text-zinc-300">CREATORS</span> <br />
+              WE TURN <span className="text-zinc-300">CREATORS INTO</span> <br />
               <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-brand-crimson via-red-500 to-brand-gold pb-1">
                 BRANDS.
                 <span className="absolute bottom-0 left-0 w-full h-[4px] sm:h-[5px] bg-gradient-to-r from-brand-crimson via-brand-darkRed to-transparent rounded-full" />
